@@ -1,7 +1,6 @@
 package apple
 
 import (
-	"fmt"
 	"image/color"
 	"math/rand"
 	"snake/types"
