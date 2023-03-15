@@ -1,6 +1,7 @@
 package snake
 
 import (
+	"fmt"
 	"image/color"
 	"snake/types"
 
@@ -24,7 +25,7 @@ type Snake struct {
 
 func (s *Snake) Init(w, h, size int) {
 	s.el = make([]types.SnakeElement, (w/size)*(h/size))
-	s.el[0] = types.SnakeElement{X: 3, Y: 2, Color: color.RGBA{R: 40, G: 70, B: 140, A: 255}}
+	s.el[0] = types.SnakeElement{X: 3, Y: 2, Color: color.RGBA{R: 40, G: 170, B: 190, A: 255}}
 	s.length = 1
 	s.dir = down
 	s.size = size
@@ -36,6 +37,13 @@ func (s *Snake) NewStatement(w, h, size int) {
 	s.eatsItSelf()
 	s.move()
 	s.shift()
+}
+
+func (s *Snake) EatsApple(a types.Position) bool {
+	if s.el[0].X == a.X && s.el[0].Y == a.Y {
+		return true
+	}
+	return false
 }
 
 func (s *Snake) outOfBounds(w, h, size int) {
@@ -81,16 +89,16 @@ func (s *Snake) move() {
 
 func (s *Snake) changeDir() {
 
-	if ebiten.IsKeyPressed(ebiten.KeyW) {
+	if ebiten.IsKeyPressed(ebiten.KeyW) && s.dir != down {
 		s.dir = up
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyS) {
+	if ebiten.IsKeyPressed(ebiten.KeyS) && s.dir != up {
 		s.dir = down
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyA) {
+	if ebiten.IsKeyPressed(ebiten.KeyA) && s.dir != right {
 		s.dir = left
 	}
-	if ebiten.IsKeyPressed(ebiten.KeyD) {
+	if ebiten.IsKeyPressed(ebiten.KeyD) && s.dir != left {
 		s.dir = right
 	}
 }

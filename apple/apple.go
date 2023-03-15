@@ -28,8 +28,6 @@ func (a *Apple) Draw(screen *ebiten.Image) {
 }
 
 func (a *Apple) GenNewPos(sizeX, sizeY int) {
-	if ebiten.IsKeyPressed(ebiten.KeyN) {
-		a.Pos.Y = rand.Intn(sizeY / a.size)
-		a.Pos.X = rand.Intn(sizeX / a.size)
-	}
+	a.Pos.Y = rand.Intn(sizeY / a.size)
+	a.Pos.X = rand.Intn(sizeX / a.size)
 }

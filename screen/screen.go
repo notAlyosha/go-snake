@@ -36,7 +36,10 @@ func (g *Game) Layout(outsideWidth, outsideHeight int) (int, int) {
 }
 
 func (g *Game) Update() error {
-	g.apple.GenNewPos(screenWidth, screenHeight)
+	if g.snake.EatsApple(g.apple.Pos) == true {
+		g.apple.GenNewPos(screenWidth, screenHeight)
+	}
+
 	g.snake.NewStatement(screenWidth, screenHeight, step)
 	return nil
 }
