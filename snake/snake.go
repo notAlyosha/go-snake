@@ -26,6 +26,16 @@ func (s *Snake) Init(w, h, size int) {
 	s.el = make([]types.SnakeElement, (w/size)*(h/size))
 	s.el[0] = types.SnakeElement{X: 3, Y: 2, Color: color.RGBA{R: 40, G: 70, B: 140, A: 255}}
 	s.length = 1
+	s.dir = down
+	s.size = size
+}
+
+func (s *Snake) NewStatement(w, h, size int) {
+	s.outOfBounds(w, h, size)
+	s.changeDir()
+	s.eatsItSelf()
+	s.move()
+	s.shift()
 }
 
 func (s *Snake) outOfBounds(w, h, size int) {
@@ -46,8 +56,42 @@ func (s *Snake) outOfBounds(w, h, size int) {
 	}
 
 	if s.el[0].Y > 0 {
-		s.el[0].Y = h / size
+	}
+}
+
+func (s *Snake) move() {
+
+	if s.dir == up {
+		s.el[0].Y -= 1
 		return
+	}
+	if s.dir == down {
+		s.el[0].Y += 1
+		return
+	}
+	if s.dir == left {
+		s.el[0].X -= 1
+		return
+	}
+	if s.dir == right {
+		s.el[0].X += 1
+		return
+	}
+}
+
+func (s *Snake) changeDir() {
+
+	if ebiten.IsKeyPressed(ebiten.KeyW) {
+		s.dir = up
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyS) {
+		s.dir = down
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyA) {
+		s.dir = left
+	}
+	if ebiten.IsKeyPressed(ebiten.KeyD) {
+		s.dir = right
 	}
 }
 
@@ -66,8 +110,8 @@ func (s *Snake) shift() {
 	}
 }
 
-func (s *Snake) draw(screen *ebiten.Image) {
+func (s *Snake) Draw(screen *ebiten.Image) {
 	for i := 0; i < s.length; i += 1 {
-		ebitenutil.DrawRect(screen, float64(s.el[i].X), float64(s.el[i].Y), float64(s.size), float64(s.size), s.el[i].Color)
+		ebitenutil.DrawRect(screen, float64(s.el[i].X)*float64(s.size), float64(s.el[i].Y)*float64(s.size), float64(s.size), float64(s.size), s.el[i].Color)
 	}
 }
