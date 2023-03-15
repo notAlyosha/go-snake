@@ -1,7 +1,6 @@
 package snake
 
 import (
-	"fmt"
 	"image/color"
 	"snake/types"
 
