@@ -32,7 +32,6 @@ func (s *Snake) Init(w, h, size int) {
 func (s *Snake) NewStatement(w, h, size int) {
 	s.outOfBounds(w, h, size)
 	s.changeDir()
-	s.eatsItSelf()
 	s.move()
 	s.shift()
 }
@@ -105,9 +104,9 @@ func (s *Snake) changeDir() {
 	}
 }
 
-func (s *Snake) eatsItSelf() bool {
-	for i := 1; i < len(s.el); i += 1 {
-		if s.el[0].X == s.el[i].X && s.el[0].X == s.el[i].Y {
+func (s *Snake) EatsItSelf() bool {
+	for i := 2; i < len(s.el); i += 1 {
+		if s.el[0].X == s.el[i].X && s.el[0].Y == s.el[i].Y {
 			return true
 		}
 	}

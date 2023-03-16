@@ -1,4 +1,4 @@
-package screen
+package game
 
 import (
 	"image/color"
@@ -42,7 +42,9 @@ func (g *Game) Update() error {
 	}
 
 	g.snake.NewStatement(screenWidth, screenHeight, step)
-
+	if g.snake.EatsItSelf() {
+		panic("snake eats it's self")
+	}
 	return nil
 }
 

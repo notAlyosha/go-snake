@@ -1,13 +1,13 @@
 package main
 
 import (
-	"snake/screen"
+	"snake/game"
 
 	"github.com/hajimehoshi/ebiten/v2"
 )
 
 func main() {
-	game := screen.Game{}
+	game := game.Game{}
 	game.Init()
 	if err := ebiten.RunGame(&game); err != nil {
 		panic(err)
