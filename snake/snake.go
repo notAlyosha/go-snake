@@ -23,9 +23,8 @@ type Snake struct {
 }
 
 func (s *Snake) Init(w, h, size int) {
-	s.el = make([]types.SnakeElement, (w/size)*(h/size))
+	s.el = make([]types.SnakeElement, 1)
 	s.el[0] = types.SnakeElement{X: 3, Y: 2, Color: color.RGBA{R: 40, G: 170, B: 190, A: 255}}
-	s.length = 1
 	s.dir = down
 	s.size = size
 }
@@ -37,7 +36,9 @@ func (s *Snake) NewStatement(w, h, size int) {
 	s.move()
 	s.shift()
 }
-
+func (s *Snake) Increase() {
+	s.el = append(s.el, types.SnakeElement{})
+}
 func (s *Snake) EatsApple(a types.Position) bool {
 	if s.el[0].X == a.X && s.el[0].Y == a.Y {
 		return true
@@ -62,7 +63,9 @@ func (s *Snake) outOfBounds(w, h, size int) {
 		return
 	}
 
-	if s.el[0].Y > 0 {
+	if s.el[0].Y < 0 {
+		s.el[0].Y = h / size
+		return
 	}
 }
 
@@ -103,7 +106,7 @@ func (s *Snake) changeDir() {
 }
 
 func (s *Snake) eatsItSelf() bool {
-	for i := 0; i < s.length; i += 1 {
+	for i := 1; i < len(s.el); i += 1 {
 		if s.el[0].X == s.el[i].X && s.el[0].X == s.el[i].Y {
 			return true
 		}
@@ -112,13 +115,13 @@ func (s *Snake) eatsItSelf() bool {
 }
 
 func (s *Snake) shift() {
-	for i := 1; i < s.length; i += 1 {
+	for i := len(s.el) - 1; i > 0; i -= 1 {
 		s.el[i] = s.el[i-1]
 	}
 }
 
 func (s *Snake) Draw(screen *ebiten.Image) {
-	for i := 0; i < s.length; i += 1 {
+	for i := 0; i < len(s.el); i += 1 {
 		ebitenutil.DrawRect(screen, float64(s.el[i].X)*float64(s.size), float64(s.el[i].Y)*float64(s.size), float64(s.size), float64(s.size), s.el[i].Color)
 	}
 }
